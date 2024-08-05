@@ -1,5 +1,6 @@
 const { Client, GatewayIntentBits } = require('discord.js');
 const fetchDetails = require('./fetchDetails');
+
 require('dotenv').config();
 
 const client = new Client({
@@ -17,6 +18,10 @@ client.on('interactionCreate', async (interaction) => {
 
     if (commandName === 'animeinfo') {
         const input = options.getString('anime');
+        if(!input) {
+            await interaction.reply('anime name required baka!');
+            return;
+        }
         try {
             const data = await fetchDetails(input);
             console.log(data);
@@ -46,5 +51,7 @@ client.on('interactionCreate', async (interaction) => {
         );
     }
 });
+
+
 
 client.login(process.env.TOKEN);
